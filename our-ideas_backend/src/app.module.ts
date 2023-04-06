@@ -24,5 +24,3 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
   providers: [AppService],
 })
 export class AppModule {}
-
-// mongodb+srv://matheusfernandes92235:<password>@cluster0.dtdd9r6.mongodb.net/?retryWrites=true&w=majority

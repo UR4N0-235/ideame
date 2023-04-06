@@ -1,6 +1,6 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { IdeaService } from './idea.service';
-import { Idea } from './idea.model/idea.model';
+import { Idea } from './schema/idea.schema';
 
 @Controller('idea')
 export class IdeaController {
