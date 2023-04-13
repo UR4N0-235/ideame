@@ -10,6 +10,11 @@ export class Idea {
 
   @Prop({ required: true })
   description: string;
+
+  constructor(idea?: Partial<Idea>) {
+    this.title = idea?.title;
+    this.description = idea?.description;
+  }
 }
 
 export const IdeaSchema = SchemaFactory.createForClass(Idea);

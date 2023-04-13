@@ -1,13 +1,17 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { IdeaService } from './idea.service';
 import { getModelToken } from '@nestjs/mongoose';
-import mongoose, { Model } from 'mongoose';
-import { Idea } from './schema/idea.schema';
-import { promises } from 'dns';
+import { IdeaService } from './idea.service';
+import { Idea, IdeaDocument, IdeaSchema } from './schema/idea.schema';
+import { Model } from 'mongoose';
+
+const mockIdea = {
+  title: 'Idea #1',
+  description: 'Description #1',
+};
 
 describe('IdeaService', () => {
-  let service: IdeaService;
-  let model: Model<Idea>;
+  let ideaService: IdeaService;
+  let ideaModel: Model<IdeaDocument>;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -15,31 +19,32 @@ describe('IdeaService', () => {
         IdeaService,
         {
           provide: getModelToken('Idea'),
-          useValue: {
-            save: jest.fn().mockResolvedValue({}),
-          },
+          useFactory: () => ({
+            find: jest.fn(),
+            findById: jest.fn(),
+            create: jest.fn(),
+            save: jest.fn(),
+          }),
         },
       ],
     }).compile();
 
-    service = module.get<IdeaService>(IdeaService);
-    model = module.get<Model<Idea>>(getModelToken(Idea.name));
+    ideaService = module.get<IdeaService>(IdeaService);
+    ideaModel = module.get<Model<IdeaDocument>>(getModelToken('Idea'));
   });
 
   it('should be defined', () => {
-    expect(service).toBeDefined();
+    expect(ideaService).toBeDefined();
   });
 
   describe('create()', () => {
     it('should insert new idea', async () => {
-      const mockIdea: Idea = {
+      jest.spyOn(ideaModel, 'create')
+      
+      const newIdea = await ideaService.create({
         title: 'Idea #1',
         description: 'Description #1',
-      };
-      const mockDocument = new model(mockIdea);
-      jest.spyOn(model, 'create').mockResolvedValueOnce(mockDocument);
-  
-      const newIdea = await service.create(mockIdea);
+      });
       expect(newIdea).toEqual(mockIdea);
     });
   });

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotImplementedException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Idea } from './schema/idea.schema';
@@ -9,8 +9,15 @@ export class IdeaService {
     @InjectModel(Idea.name) private readonly ideaModel: Model<Idea>,
   ) {}
 
-  async create(doc: Idea): Promise<Idea> {
-    const result = await new this.ideaModel(doc).save();
-    return result;
+  async create(idea: Idea): Promise<Idea> {
+    return await this.ideaModel.create(idea);
+  }
+
+  async findAll(): Promise<Idea[]> {
+    throw NotImplementedException;
+  }
+
+  async findById(): Promise<Idea[]> {
+    throw NotImplementedException;
   }
 }

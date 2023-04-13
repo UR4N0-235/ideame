@@ -1,4 +1,13 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  NotImplementedException,
+  Post,
+  Get,
+  Delete,
+  Put,
+  Param,
+} from '@nestjs/common';
 import { IdeaService } from './idea.service';
 import { Idea } from './schema/idea.schema';
 
@@ -9,5 +18,25 @@ export class IdeaController {
   @Post('create')
   create(@Body() idea: Idea) {
     return this.service.create(idea);
+  }
+
+  @Get('')
+  getAll() {
+    throw NotImplementedException;
+  }
+
+  @Get('')
+  getOne(@Param() id: string) {
+    throw NotImplementedException;
+  }
+
+  @Put('')
+  update() {
+    throw NotImplementedException;
+  }
+
+  @Delete('')
+  delete() {
+    throw NotImplementedException;
   }
 }
