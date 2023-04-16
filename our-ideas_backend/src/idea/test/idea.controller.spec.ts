@@ -31,8 +31,8 @@ describe('IdeaController', () => {
           provide: IdeaService,
           useValue: {
             create: jest.fn().mockResolvedValue(mockIdea()),
-            findAll: jest.fn(),
-            findById: jest.fn(),
+            findAll: jest.fn().mockResolvedValue(ideaArray),
+            findById: jest.fn().mockResolvedValue(ideaArray[0]),
             update: jest.fn(),
             destroy: jest.fn(),
           },
@@ -76,7 +76,7 @@ describe('IdeaController', () => {
 
   describe('route to getOne', () => {
     it('should be find only one idea', async () => {
-      const result = await ideaController.getOne('1');
+      const result = await ideaController.getOne('a uuid #1');
       expect(result).toEqual(ideaArray[0]);
       expect(typeof result).toEqual('object');
       expect(ideaService.findById).toHaveBeenCalledTimes(1);

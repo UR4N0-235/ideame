@@ -13,21 +13,21 @@ import { Idea } from './schema/idea.schema';
 
 @Controller('idea')
 export class IdeaController {
-  constructor(private service: IdeaService) {}
+  constructor(private ideaService: IdeaService) {}
 
   @Post('create')
   create(@Body() idea: Idea) {
-    return this.service.create(idea);
+    return this.ideaService.create(idea);
   }
 
   @Get('')
   getAll() {
-    throw NotImplementedException;
+    return this.ideaService.findAll();
   }
 
-  @Get('')
-  getOne(@Param() id: string) {
-    throw NotImplementedException;
+  @Get('/:id')
+  getOne(@Param('id') id: string): Promise<Idea> {
+    return this.ideaService.findById(id);
   }
 
   @Put('')
