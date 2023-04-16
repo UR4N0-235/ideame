@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { IdeaController } from './idea.controller';
-import { IdeaService } from './idea.service';
-import { Idea } from './schema/idea.schema';
+import { IdeaController } from '../idea.controller';
+import { IdeaService } from '../idea.service';
+import { Idea } from '../schema/idea.schema';
 
 const newIdea: Idea = {
   title: 'Idea #1',

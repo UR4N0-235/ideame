@@ -5,9 +5,7 @@ import { Idea } from './schema/idea.schema';
 
 @Injectable()
 export class IdeaService {
-  constructor(
-    @InjectModel(Idea.name) private readonly ideaModel: Model<Idea>,
-  ) {}
+  constructor(@InjectModel('Idea') private readonly ideaModel: Model<Idea>) {}
 
   async create(idea: Idea): Promise<Idea> {
     return await this.ideaModel.create(idea);

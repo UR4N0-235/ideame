@@ -1,20 +1,23 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+import { Schema, Document } from 'mongoose';
 
-export type IdeaDocument = HydratedDocument<Idea>;
+export const IdeaSchema = new Schema({
+  title: {
+    type: String,
+    requried: true,
+  },
+  description: {
+    type: String,
+    required: true,
+  },
+});
 
-@Schema()
-export class Idea {
-  @Prop({ required: true })
+export interface IdeaDocument extends Document {
   title: string;
-
-  @Prop({ required: true })
   description: string;
-
-  constructor(idea?: Partial<Idea>) {
-    this.title = idea?.title;
-    this.description = idea?.description;
-  }
 }
 
-export const IdeaSchema = SchemaFactory.createForClass(Idea);
+export interface Idea {
+  id: string;
+  title: string;
+  description: string;
+}
