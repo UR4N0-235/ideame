@@ -15,7 +15,7 @@ import { Idea } from './schema/idea.schema';
 export class IdeaController {
   constructor(private ideaService: IdeaService) {}
 
-  @Post('create')
+  @Post()
   create(@Body() idea: Idea) {
     return this.ideaService.create(idea);
   }
