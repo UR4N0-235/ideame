@@ -3,15 +3,20 @@ import { IdeaController } from '../idea.controller';
 import { IdeaService } from '../idea.service';
 import { Idea } from '../schema/idea.schema';
 
-const newIdea: Idea = {
-  title: 'Idea #1',
-  description: 'Description #1',
-};
+const mockIdea = (
+  id = 'a uuid',
+  title = 'idea',
+  description = 'description',
+): Idea => ({
+  id,
+  title,
+  description,
+});
 
-const ideasList: Idea[] = [
-  new Idea({ title: 'title #1', description: 'description #1' }),
-  new Idea({ title: 'title #2', description: 'description #2' }),
-  new Idea({ title: 'title #3', description: 'description #3' }),
+const ideaArray = [
+  mockIdea('a uuid #1', 'idea #1', 'description #1'),
+  mockIdea('a uuid #2', 'idea #2', 'description #2'),
+  mockIdea('a uuid #3', 'idea #3', 'description #3'),
 ];
 
 describe('IdeaController', () => {
@@ -25,7 +30,7 @@ describe('IdeaController', () => {
         {
           provide: IdeaService,
           useValue: {
-            create: jest.fn().mockResolvedValue(newIdea),
+            create: jest.fn().mockResolvedValue(mockIdea()),
             findAll: jest.fn(),
             findById: jest.fn(),
             update: jest.fn(),
@@ -45,20 +50,20 @@ describe('IdeaController', () => {
 
   describe('route to creating new idea', () => {
     it('should be create new idea', async () => {
-      const result = await ideaController.create(newIdea);
-      expect(result).toEqual(newIdea);
+      const result = await ideaController.create(mockIdea());
+      expect(result).toEqual(mockIdea());
     });
 
     it('should throw an error', () => {
       jest.spyOn(ideaService, 'create').mockRejectedValueOnce(new Error());
-      expect(ideaService.create(newIdea)).rejects.toThrowError();
+      expect(ideaService.create(mockIdea())).rejects.toThrowError();
     });
   });
 
   describe('route to getAll', () => {
     it('should be find all ideas', async () => {
       const result = await ideaController.getAll();
-      expect(result).toEqual(ideasList);
+      expect(result).toEqual(ideaArray);
       expect(typeof result).toEqual('object');
       expect(ideaService.findAll).toHaveBeenCalledTimes(1);
     });
@@ -72,7 +77,7 @@ describe('IdeaController', () => {
   describe('route to getOne', () => {
     it('should be find only one idea', async () => {
       const result = await ideaController.getOne('1');
-      expect(result).toEqual(ideasList[0]);
+      expect(result).toEqual(ideaArray[0]);
       expect(typeof result).toEqual('object');
       expect(ideaService.findById).toHaveBeenCalledTimes(1);
     });
