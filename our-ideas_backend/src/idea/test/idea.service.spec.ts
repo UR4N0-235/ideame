@@ -16,7 +16,7 @@ const mockIdea = (
 });
 
 const mockIdeaDocument = (mock?: Partial<Idea>): Partial<IdeaDocument> => ({
-  id: mock?.id || 'a uuid',
+  _id: mock?.id || 'a uuid',
   title: mock?.title || 'idea',
   description: mock?.description || 'description',
 });
@@ -61,7 +61,7 @@ describe('IdeaService', () => {
             find: jest.fn(),
             findOne: jest.fn(),
             update: jest.fn(),
-            create: jest.fn(),
+            create: jest.fn().mockResolvedValue(mockIdeaDocument()),
             remove: jest.fn(),
             exec: jest.fn(),
           },
@@ -83,7 +83,7 @@ describe('IdeaService', () => {
 
   describe('findAll()', () => {
     it('should return a idea list', async () => {
-      jest.spyOn(ideaModel, 'find').mockReturnValueOnce({
+      jest.spyOn(ideaModel, 'find').mockReturnValue({
         exec: jest.fn().mockResolvedValueOnce(ideaDocumentArray),
       } as any);
       const ideas = await ideaService.findAll();
@@ -107,14 +107,13 @@ describe('IdeaService', () => {
     });
   });
 
-  // describe('create()', () => {
-  //   it('should insert new idea', async () => {
-  //     jest.spyOn(ideaModel, 'create')
-  //     const newIdea = await ideaService.create({
-  //       title: 'Idea #1',
-  //       description: 'Description #1',
-  //     });
-  //     expect(newIdea).toEqual(mockIdea);
-  //   });
-  // });
+  describe('create()', () => {
+    it('should insert new idea', async () => {
+      const newIdea = await ideaService.create({
+        title: 'Idea #1',
+        description: 'Description #1',
+      });
+      expect(newIdea).toEqual(mockIdea());
+    });
+  });
 });
